@@ -1,0 +1,31 @@
+# Ignore data files
+*.csv
+*.parquet
+
+# Ignore virtual environments
+/env
+/myenv
+venv/
+env/
+
+# Ignore Python-related files
+__pycache__/
+*.pyc
+*.pyo
+
+# Ignore macOS files
+.DS_Store
+
+# Ignore Windows files
+Thumbs.db
+desktop.ini
+
+# Ignore logs and temporary files
+*.log
+*.tmp
+*.swp
+*.bak
+
+# Ignore IDE/editor-specific files
+.vscode/
+.idea/
