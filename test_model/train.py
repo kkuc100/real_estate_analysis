@@ -11,11 +11,11 @@ def save_model(model, path):
 
 def main():
     # Prepare features and target
-    df = pd.read_csv("../data/realtor_dataset.csv")
+    df = pd.read_csv("../Data/realtor_dataset.csv")
     X = df[['zipcode', 'price']]
     y = df['risklevel']
 
-    with open("../config.yaml", "r") as config_file:
+    with open("./config.yaml", "r") as config_file:
         config = yaml.safe_load(config_file)
 
     # Split the data
@@ -33,13 +33,13 @@ def main():
     print(f"Accuracy: {accuracy * 100:.2f}%")
 
     # Save the trained model
-    save_model(model, "../xgb_model.json")
+    save_model(model, "./xgb_model.json")
 
     # Create tar.gz file containing the model and other necessary files
-    with tarfile.open("../xgboost_model.tar.gz", "w:gz") as tar:
-        tar.add("../xgb_model.json", arcname="xgb_model.json")
-        tar.add("../inference.py", arcname="inference.py")
-        tar.add("../config.yaml", arcname="config.yaml")
+    with tarfile.open("./xgboost_model.tar.gz", "w:gz") as tar:
+        tar.add("./xgb_model.json", arcname="xgb_model.json")
+        tar.add("./inference.py", arcname="inference.py")
+        tar.add("./config.yaml", arcname="config.yaml")
 
 if __name__ == "__main__":
     main()
