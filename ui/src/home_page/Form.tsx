@@ -27,14 +27,6 @@ function Form() {
     event.preventDefault();
     const formElements = event.currentTarget.elements;
     console.log("formElements", formElements)
-    setApplicationState((prevState) => ({
-      ...prevState,
-      state: (formElements.namedItem("state") as HTMLSelectElement)?.value,
-      zipcode: Number((formElements.namedItem("zipcode") as HTMLInputElement).value),
-      price: Number((formElements.namedItem("price") as HTMLInputElement).value),
-      propertycondition: (formElements.namedItem("propertycondition") as HTMLInputElement).value,
-      dateofproperty: (formElements.namedItem("dateofproperty") as HTMLInputElement).value,
-    }));
     const newState = {
       state: (formElements.namedItem("state") as HTMLSelectElement)?.value,
       zipcode: Number((formElements.namedItem("zipcode") as HTMLInputElement).value),
@@ -42,30 +34,33 @@ function Form() {
       propertycondition: (formElements.namedItem("propertycondition") as HTMLInputElement).value,
       dateofproperty: (formElements.namedItem("dateofproperty") as HTMLInputElement).value,
   };
+    setApplicationState((prevState) => ({
+      ...prevState,
+      ...newState,
+    }));
     console.log("newState",newState);
     callSageMakerEndpoint(newState)
   }
 
-  async function callSageMakerEndpoint(inputData: InputData) {
-    try {
-        const response = await fetch('YOUR_SAGEMAKER_ENDPOINT_URL', {  // Replace with your endpoint URL
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(inputData),
-        });
-        
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
+  async function callSageMakerEndpoint(newState: InputData) {
+    const requestOptions = {
+      method: 'POST',
+      headers: {
+          'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(newState),
+  };
 
-        const data = await response.json();
-        return data;
-    } catch (error) {
-        console.error("Error calling SageMaker endpoint:", error);
-        throw error; // Handle error appropriately in your application
-    }
+  try {
+      const response = await fetch('https://ir19td8z0m.execute-api.us-east-1.amazonaws.com/real_estates', requestOptions);
+      if (!response.ok) {
+          throw new Error('Network response was not ok');
+      }
+      const data = await response.json();
+      console.log('Response from Lambda:', data);
+  } catch (error) {
+      console.error('Error calling Lambda:', error);
+  }
 }
 
   function handleClear() {
