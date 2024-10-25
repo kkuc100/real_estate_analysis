@@ -1,0 +1,20 @@
+# SageMaker-specific configuration
+sagemaker_config:
+  instance_type: ml.m5.xlarge                       # Instance type for training
+  instance_count: 1                                  # Number of instances for distributed training
+  volume_size: 5                                     # EBS volume size in GB
+  max_run: 3600                                      # Maximum runtime for training job in seconds
+  output_path: s3://sagemaker-us-east-1-025066244931/output  # S3 bucket path for output
+  role_arn: arn:aws:iam::025066244931:role/service-role/AmazonSageMaker-ExecutionRole-20240928T193088  # IAM role for SageMaker
+
+# Train-test split configuration (handled outside of SageMaker training job)
+train_test_split:
+  test_size: 0.2
+  random_state: 0
+
+# Configuration for XGBoost hyperparameters
+hyperparameters:
+  num_class: 10                                      # Number of classes (for 0-9)
+  num_round: 50                                       # Number of boosting rounds
+  max_depth: 5
+  objective: "multi:softmax"
