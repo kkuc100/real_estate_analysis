@@ -53,11 +53,16 @@ function Form() {
 
   try {
       const response = await fetch('https://ir19td8z0m.execute-api.us-east-1.amazonaws.com/real_estates', requestOptions);
+      console.log("response",response)
       if (!response.ok) {
           throw new Error('Network response was not ok');
       }
       const data = await response.json();
       console.log('Response from Lambda:', data);
+      setApplicationState((prevState) => ({
+        ...prevState,
+        risklevel: Math.round(data)*10,
+      }));
   } catch (error) {
       console.error('Error calling Lambda:', error);
   }
