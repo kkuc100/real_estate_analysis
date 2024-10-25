@@ -58,10 +58,11 @@ function Form() {
           throw new Error('Network response was not ok');
       }
       const data = await response.json();
-      console.log('Response from Lambda:', data);
+      const bodyValue = JSON.parse(data.body);
+      console.log('Response from Lambda:', bodyValue);
       setApplicationState((prevState) => ({
         ...prevState,
-        risklevel: Math.round(data)*10,
+        risklevel: Math.round(bodyValue)*10,
       }));
   } catch (error) {
       console.error('Error calling Lambda:', error);
