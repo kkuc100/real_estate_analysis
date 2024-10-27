@@ -1,0 +1,48 @@
+/* styles.css */
+
+/* General styles for the header */
+header {
+  background-color: rgb(224, 223, 224);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px; /* Adjust padding as needed */
+}
+
+/* Logo styles */
+header .image-logo {
+  height: 40px; /* Adjust the height as needed */
+  width: auto; /* Maintain aspect ratio */
+}
+
+/* Tab list styles */
+.tab-list {
+  display: flex;
+  padding: 0px 20px;
+  gap: 10px; /* Space between buttons */
+}
+
+/* Button styles */
+.tab-list .button {
+  background-color: rgb(23, 49, 73);
+  text-decoration: none;
+  border: 1px solid transparent; /* Border for buttons */
+  padding: 10px 20px; /* Button padding */
+  cursor: pointer; /* Pointer on hover */
+  transition: border-color 0.3s; /* Smooth transition for border color */
+  border-radius: 10px; /* Rounded corners */
+  color: white; /* White text color */
+  font-size: 12px;
+}
+
+/* Button hover and active styles */
+.tab-list .button:hover {
+  border-color: #333; /* Change border color on hover */
+  transform: scale(1.05);
+}
+
+.tab-list .button:focus {
+  outline: none; /* Remove default focus outline */
+  border-color: #007BFF; /* Change border color on focus */
+  transform: scale(1.05);
+}

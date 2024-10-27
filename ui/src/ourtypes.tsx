@@ -1,8 +1,8 @@
-import logo from './logo.svg';
-import './App.css';
-import React, { useState } from 'react';
+
+import React from 'react';
 
 export interface ApplicationState {
+    page?: string;
     state?: string;
     county?: string;
     zipcode?: number;

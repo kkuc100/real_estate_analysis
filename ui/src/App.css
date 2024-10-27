@@ -1,3 +1,6 @@
 .App {
   text-align: center;
+  overflow: hidden;
+  font-family: Arial, sans-serif;
+  color: #333;
 }

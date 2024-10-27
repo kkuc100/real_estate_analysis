@@ -1,0 +1,135 @@
+/* Base Styles */
+
+.Home {
+  padding: 0px;
+  flex-wrap: wrap;
+  overflow: hidden;
+  background: linear-gradient(to bottom, #eef2f5, #d7e1ec);
+  height: 93vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  color: #333;
+}
+
+/* Grid Container */
+.Home .grid-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 10px;
+  width: 100%;
+  max-width: 1200px;
+  padding: 10px;
+}
+
+/* Grid Items */
+.Home .grid-item {
+  background: #ffffff;
+  border-radius: 8px;
+  border: 1px solid #e0e0e0;
+  padding: 15px;
+  text-align: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.Home .grid-item:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+}
+
+/* Input and Risk Tables */
+.Home .inputtable,
+.Home .risktable {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+  font-size: 1em;
+}
+
+.Home .inputtable tr:nth-child(even) td,
+.Home .risktable tr:nth-child(even) td {
+  padding: 12px;
+  text-align: center;
+  background-color: #f9f9f9;
+}
+
+.Home .inputtable tr:nth-child(odd) td,
+.Home .risktable tr:nth-child(odd) td {
+  padding: 12px;
+  text-align: center;
+  background-color: #f3f4f6;
+  color: #444;
+}
+
+.Home th {
+  background-color: #4a90e2;
+  color: #ffffff;
+  font-weight: 600;
+  padding: 12px;
+  border-radius: 4px;
+}
+
+/* Speedometer Section */
+.Home .speedometer {
+  padding: 20px;
+  margin-bottom: 15px;
+  background: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Headings */
+.Home h3 {
+  margin-top: 0;
+  color: #333;
+  font-weight: 500;
+}
+
+/* Add Smooth Transitions and Animations */
+* {
+  transition: all 0.3s ease;
+}
+
+.Home .button{
+  gap: 5px;
+  display: flex;
+  justify-content: center; /* Center items horizontally */
+  align-items: center;
+}
+
+.Home .button #submit-button {
+  background-color: rgb(23, 49, 73);
+  border: 1px solid transparent; /* Border for buttons */
+  padding: 5px 10px; /* Button padding */
+  cursor: pointer; /* Pointer on hover */
+  transition: border-color 0.3s; /* Smooth transition for border color */
+  border-radius: 10px; /* Rounded corners */
+  color: rgb(253, 253, 253); /* White text color */
+  font-size: 12px;
+}
+
+.Home .button #submit-button:hover { /* Corrected selector */
+  border-color: #333; /* Change border color on hover */
+  transform: scale(1.05);
+}
+
+.Home .button #submit-button:focus { /* Corrected selector */
+  outline: none; /* Remove default focus outline */
+  border-color: #007BFF; /* Change border color on focus */
+  transform: scale(1.05);
+}
+
+.Home #image-logo {
+  position: absolute; /* Positioning it absolutely within the container */
+  bottom: 10px; /* Distance from the bottom */
+  right: 10px; /* Distance from the right */
+  width: 100px; /* Adjust width as needed */
+  height: auto; /* Maintain aspect ratio */
+}
+
+.Home .custom-slider {
+  width: 80%;
+}
