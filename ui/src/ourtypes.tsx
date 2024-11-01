@@ -2,23 +2,16 @@
 import React from 'react';
 
 export interface ApplicationState {
-    page?: string;
     state?: string;
-    county?: string;
     zipcode?: number;
+    sqrft?: number;
+    beds?: number;
+    baths?: number;
+    age?: number;
     price?: number;
-    propertycondition?: string;
     dateofproperty?: string;
     daysonmarket?: number,
-    risklevel: number,
   }
-
-export enum PropertyCondition {
-    NEW = "New",
-    GOOD = "Good",
-    FAIR = "Fair",
-    POOR = "Poor",
-}
 
 export enum State {
     ALABAMA = "Alabama",

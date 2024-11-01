@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState } from 'react';
 import { defaultApplicationState} from '../ApplicationState';
-import { ApplicationState, PropertyCondition, State } from '../ourtypes';
+import { ApplicationState, State } from '../ourtypes';
 import ReactSpeedometer from "react-d3-speedometer"
 import marketEdgeLogo from '../assets/MarketEdge_logo_header.jpg';
 import { Link } from 'react-router-dom';

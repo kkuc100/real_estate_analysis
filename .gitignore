@@ -1,8 +1,10 @@
 # Ignore data files
-*.csv
+.csv
 *.parquet
 Houses Dataset/
 Data/
+Notebooks/
+Presentations/
 
 # Ignore virtual environments
 /env

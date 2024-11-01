@@ -1,5 +1,5 @@
 import React, { ChangeEvent, FormEvent } from 'react';
-import { ApplicationState, PropertyCondition, State } from '../ourtypes';
+import { ApplicationState, State } from '../ourtypes';
 import Slider from '@mui/material/Slider';
 import ReactSpeedometer from "react-d3-speedometer";
 import kevin from '../assets/kevin.jpeg';

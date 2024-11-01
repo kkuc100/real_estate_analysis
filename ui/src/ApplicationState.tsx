@@ -1,15 +1,16 @@
 import React, { useState } from 'react';
-import { ApplicationState, PropertyCondition, State } from './ourtypes';
+import { ApplicationState, State } from './ourtypes';
 
 export const defaultApplicationState: ApplicationState = {
     state: State.ALABAMA,
-    county: '',
     zipcode: undefined,
+    sqrft: undefined,
+    beds: undefined,
+    baths: undefined,
+    age: undefined,
     price: undefined,
-    propertycondition: PropertyCondition.GOOD,
     dateofproperty: '',
     daysonmarket: undefined,
-    risklevel: 0,
   };
 
   const useApplicationState = () => {

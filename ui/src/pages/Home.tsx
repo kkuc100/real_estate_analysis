@@ -1,27 +1,64 @@
-import React, { ChangeEvent, FormEvent } from 'react';
-import { ApplicationState, PropertyCondition, State } from '../ourtypes';
+import React, { ChangeEvent, useEffect,FormEvent, useState } from 'react';
+import { ApplicationState, State } from '../ourtypes';
 import Slider from '@mui/material/Slider';
 import ReactSpeedometer from "react-d3-speedometer";
 import marketEdgeLogoOnly from '../assets/MarketEdge_logo_only.jpg';
 import './Home.css'
+import zipData from '../assets/zip_cluster_mapping.json';
 
 interface FormProps {
   appState: ApplicationState;
   setAppState: React.Dispatch<React.SetStateAction<ApplicationState>>;
 }
 
+interface ZipCodeData {
+  ZIP: string;       // Assuming ZIP is a string
+  zip_cluster: number; // Assuming zip_cluster is a number; adjust as necessary
+}
+
+
 const Form: React.FC<FormProps> = ({ appState, setAppState }) => {
+  const [zipMap, setZipMap] = useState<Map<string, string>>(new Map());
+  const [inputZipcode, setInputZipcode] = useState<string>('');
+  const [error, setError] = useState<string>('');
+
+  useEffect(() => {
+    const fetchZipCodes = () => {
+      // Map through the zipData and ensure zip_cluster is treated as a string
+      const zipMapData = new Map(
+        zipData.map(item => [
+          item.ZIP.toString(),
+          item.zip_cluster !== null ? item.zip_cluster.toString() : '', // Handle null by using an empty string
+        ])
+      );
+      setZipMap(zipMapData);
+    };
+
+    fetchZipCodes();
+  }, []);
 
   function handleCheckEstimation(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const formElements = event.currentTarget.elements;
 
+    const zip_input = ((formElements.namedItem("zipcode") as HTMLInputElement).value).slice(1);
+    setInputZipcode(zip_input);
+
+    if (!zipMap.has(zip_input)) {
+      setError('Invalid zip code. Please enter a valid zip code from the list.');
+      return;
+    } else {
+      setError('');
+    }
+
     const newState: ApplicationState = {
       ...appState,  // Use current state instead of prevState
       state: (formElements.namedItem("state") as HTMLSelectElement)?.value,
-      zipcode: Number((formElements.namedItem("zipcode") as HTMLInputElement).value),
-      price: Number((formElements.namedItem("price") as HTMLInputElement).value),
-      propertycondition: (formElements.namedItem("propertycondition") as HTMLInputElement).value,
+      zipcode: Number(zipMap.get(zip_input)),
+      sqrft: Number((formElements.namedItem("sqrft") as HTMLInputElement).value),
+      beds: Number((formElements.namedItem("beds") as HTMLInputElement).value),
+      baths: Number((formElements.namedItem("baths") as HTMLInputElement).value),
+      age: Number((formElements.namedItem("age") as HTMLInputElement).value),
       dateofproperty: (formElements.namedItem("dateofproperty") as HTMLInputElement).value,
     };
 
@@ -46,10 +83,10 @@ const Form: React.FC<FormProps> = ({ appState, setAppState }) => {
       }
       const data = await response.json();
       console.log("response from Lambda", data)
-      const body = JSON.parse(data.body);
+      const daysonmarket = JSON.parse(data.body);
       setAppState((prevState) => ({
         ...prevState,
-        risklevel: Math.round(body) * 10,
+        daysonmarket: daysonmarket,
       }));
     } catch (error) {
       console.error('Error calling Lambda:', error);
@@ -57,25 +94,28 @@ const Form: React.FC<FormProps> = ({ appState, setAppState }) => {
   }
 
   function handleClear() {
-    setAppState({ ...appState, risklevel: 0, price: 0, state: "", zipcode: 0, propertycondition: "", dateofproperty: "" }); // Reset to default values
-  }
-
-  function GetRiskLevel(risklevel: number) {
-    if (risklevel >= 65) {
-      return "High";
-    } else if (risklevel >= 35) {
-      return "Medium";
-    } else {
-      return "Low";
-    }
-  }
+    setAppState({ ...appState,
+      state: State.ALABAMA,
+      zipcode: undefined,
+      sqrft: undefined,
+      beds: undefined,
+      baths: undefined,
+      age: undefined,
+      price: undefined,
+      dateofproperty: '',
+      daysonmarket: undefined,});
+      setInputZipcode(''); // Clear input zipcode
+      setError('');
+    };
 
   const handleSliderChange = (event: Event, newValue: number | number[]) => {
     setAppState((prevState) => ({
       ...prevState,
-      price: newValue as number, // Use newValue to get the current slider value
+      price: newValue as number,
     }));
   };
+
+
 
   return (
     <div className='Home'>
@@ -106,28 +146,72 @@ const Form: React.FC<FormProps> = ({ appState, setAppState }) => {
                 </tr>
                 <tr>
                   <td className='td'>
-                    <label htmlFor="zipcode">Zip Code: </label>
+                  <label htmlFor="zipcode">Zip Code: </label>
+                  <input
+                    type="text"
+                    id="zipcode"
+                    name="zipcode"
+                    placeholder="Zip Code"
+                    maxLength={5}
+                    pattern="\d{5}"
+                  />
+                  {error && <span className="error">{error}</span>}
+                  </td>
+                </tr>
+                <tr>
+                  <td className='td'>
+                    <label htmlFor="sqrft">Square Feet: </label>
                     <input
-                      type="text"
-                      id="zipcode"
-                      name="zipcode"
-                      placeholder="Zip Code"
-                      maxLength={5}
-                      pattern="\d{5}"
+                      type="number"
+                      id="sqrft"
+                      name="sqrft"
+                      placeholder="Square Feet"
+                      style={{ width: '120px' }}
+                      max="1000000"
+                      min="0"
                     />
                   </td>
                 </tr>
                 <tr>
                   <td className='td'>
-                    <label htmlFor="propertycondition">Property Condition: </label>
-                    <select id="propertycondition" name="propertycondition">
-                      <option value="" disabled>Select condition</option>
-                      {Object.values(PropertyCondition).map((condition) => (
-                        <option key={condition} value={condition}>
-                          {condition}
-                        </option>
-                      ))}
-                    </select>
+                    <label htmlFor="beds">Number of Beds: </label>
+                    <input
+                      type="number"
+                      id="beds"
+                      name="beds"
+                      placeholder="Beds"
+                      style={{ width: '120px' }}
+                      max="100"
+                      min="0"
+                    />
+                  </td>
+                </tr>
+                <tr>
+                  <td className='td'>
+                    <label htmlFor="baths">Number of Baths: </label>
+                    <input
+                      type="number"
+                      id="baths"
+                      name="baths"
+                      placeholder="Baths"
+                      style={{ width: '120px' }}
+                      max="60"
+                      min="0"
+                    />
+                  </td>
+                </tr>
+                <tr>
+                  <td className='td'>
+                    <label htmlFor="age">Age of Property: </label>
+                    <input
+                      type="number"
+                      id="age"
+                      name="age"
+                      placeholder="age"
+                      style={{ width: '120px' }}
+                      max="1000"
+                      min="0"
+                    />
                   </td>
                 </tr>
                 <tr>
@@ -140,20 +224,6 @@ const Form: React.FC<FormProps> = ({ appState, setAppState }) => {
                     />
                   </td>
                 </tr>
-                <tr>
-                  <td className='td'>
-                    <label htmlFor="price">Price (No commas): </label>
-                    <input
-                      type="number"
-                      id="price"
-                      name="price"
-                      placeholder="Price of Property"
-                      style={{ width: '120px' }}
-                      max="20000000"
-                      min="0"
-                    />
-                  </td>
-                </tr>
               </tbody>
             </table>
             <div className='button'>
@@ -163,19 +233,6 @@ const Form: React.FC<FormProps> = ({ appState, setAppState }) => {
           </form>
         </div>
         <div className='grid-item'>
-          <h3>Your house is at {GetRiskLevel(appState.risklevel)} risk</h3>
-          <div className='speedometer'>
-            <ReactSpeedometer 
-              maxValue={100}
-              minValue={0}
-              value={appState.risklevel}
-              needleColor="black"
-              startColor="green"
-              segments={10}
-              endColor="red"
-              height={180}
-            />
-          </div>
           <Slider
             className='custom-slider'
             aria-label="Price Slider"
