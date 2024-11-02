@@ -15,7 +15,7 @@ train_test_split:
 # Configuration for the XGBoost Regressor
 hyperparameters:
   # General parameters
-  n_rounds: 600                   # Number of trees in the ensemble
+  num_round: 600                      # Number of trees in the ensemble
   learning_rate: 0.1                  # Step size shrinkage
   max_depth: 1                        # Maximum depth of trees
   min_child_weight: 1                 # Minimum sum of instance weights in a child
