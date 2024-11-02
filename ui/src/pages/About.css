@@ -22,8 +22,8 @@
 }
 
 .team-image {
-  width: 30%; /* Set width for images */
-  height: auto; /* Maintain aspect ratio */
+  width: 400px; /* Set width for images */
+  height: 400px; /* Maintain aspect ratio */
   border-radius: 10px; /* Add rounded corners */
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Add subtle shadow for depth */
   transition: transform 0.3s; /* Transition effect for hover */
@@ -45,4 +45,25 @@
 .contact-info p {
   font-size: 18px; /* Size of the paragraph text */
   color: #666; /* Lighter color for the text */
+}
+
+.flippable-text {
+  width: 400px;
+  height: 400px;
+  font-size: 20px;
+  color: white;
+  background-color: rgb(23, 49, 73);
+  font-family: 'Poppins', sans-serif;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  border-radius: 15px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  margin: auto;
+  padding: 20px; /* Added padding for spacing */
+}
+
+.flippable-text:hover {
+  transform: scale(1.05); /* Slightly enlarge image on hover */
 }

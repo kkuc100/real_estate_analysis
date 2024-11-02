@@ -3,14 +3,14 @@ import { ApplicationState, State } from './ourtypes';
 
 export const defaultApplicationState: ApplicationState = {
     state: State.ALABAMA,
-    zipcode: undefined,
+    zipcode: 2474,
     sqrft: undefined,
     beds: undefined,
     baths: undefined,
     age: undefined,
     price: undefined,
-    dateofproperty: '',
-    daysonmarket: undefined,
+    dateofproperty: new Date("2024-02-10"),
+    daysonmarket: 5,
   };
 
   const useApplicationState = () => {

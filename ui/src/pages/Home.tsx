@@ -2,9 +2,11 @@ import React, { ChangeEvent, useEffect,FormEvent, useState } from 'react';
 import { ApplicationState, State } from '../ourtypes';
 import Slider from '@mui/material/Slider';
 import ReactSpeedometer from "react-d3-speedometer";
-import marketEdgeLogoOnly from '../assets/MarketEdge_logo_only.jpg';
+import marketEdgeLogoOnly from '../assets/MarketEdge_logo_cropped.png';
 import './Home.css'
 import zipData from '../assets/zip_cluster_mapping.json';
+import Prediction from '../components/Slider';
+import HorizontalTimeline from '../components/HorizontalTimeline';
 
 interface FormProps {
   appState: ApplicationState;
@@ -59,7 +61,7 @@ const Form: React.FC<FormProps> = ({ appState, setAppState }) => {
       beds: Number((formElements.namedItem("beds") as HTMLInputElement).value),
       baths: Number((formElements.namedItem("baths") as HTMLInputElement).value),
       age: Number((formElements.namedItem("age") as HTMLInputElement).value),
-      dateofproperty: (formElements.namedItem("dateofproperty") as HTMLInputElement).value,
+      dateofproperty: new Date((formElements.namedItem("dateofproperty") as HTMLInputElement).value),
     };
 
     setAppState(newState);
@@ -102,8 +104,8 @@ const Form: React.FC<FormProps> = ({ appState, setAppState }) => {
       baths: undefined,
       age: undefined,
       price: undefined,
-      dateofproperty: '',
-      daysonmarket: undefined,});
+      dateofproperty: new Date("2024-02-10"),
+      daysonmarket: 5,});
       setInputZipcode(''); // Clear input zipcode
       setError('');
     };
@@ -233,47 +235,11 @@ const Form: React.FC<FormProps> = ({ appState, setAppState }) => {
           </form>
         </div>
         <div className='grid-item'>
-          <Slider
-            className='custom-slider'
-            aria-label="Price Slider"
-            value={appState.price}
-            onChange={handleSliderChange}
-            valueLabelDisplay="auto"
-            step={100000}
-            marks={[
-              { value: 0, label: '0' },
-              { value: 100000, label: '$100k' },
-              { value: 200000, label: '$200k' },
-              { value: 300000, label: '$300k' },
-              { value: 400000, label: '$400k' },
-              { value: 500000, label: '$500k' },
-              { value: 600000, label: '$600k' },
-              { value: 700000, label: '$700k' },
-              { value: 800000, label: '$800k' },
-              { value: 900000, label: '$900k' },
-            ]}
-            min={0}
-            max={900000}
-          />
-          <h3>Steps can be taken to lower risk</h3>
-          <table className='risktable'>
-            <tbody>
-              <tr>
-                <td className='td'>Reevaluate house pricing strategy</td>
-              </tr>
-              <tr>
-                <td className='td'>Reach out to real estate agents</td>
-              </tr>
-              <tr>
-                <td className='td'>Evaluate the current market volatility</td>
-              </tr>
-            </tbody>
-          </table>
-          <p>Check out the Tips page for more information</p>
+        <h2>Adjust the Timeline Slider</h2>
+          <HorizontalTimeline appState={appState} setAppState={setAppState} />
+          <h2>Adjust the Price Slider ($)</h2>
+          <Prediction appState={appState} setAppState={setAppState} />
         </div>
-      </div>
-      <div>
-        <img src={marketEdgeLogoOnly} alt="Market Edge Logo Only" id='image-logo' />
       </div>
     </div>
   );

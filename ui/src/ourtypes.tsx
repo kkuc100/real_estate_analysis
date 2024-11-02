@@ -9,7 +9,7 @@ export interface ApplicationState {
     baths?: number;
     age?: number;
     price?: number;
-    dateofproperty?: string;
+    dateofproperty?: Date;
     daysonmarket?: number,
   }
 
