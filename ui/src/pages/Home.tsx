@@ -153,7 +153,7 @@ const Form: React.FC<FormProps> = ({ appState, setAppState }) => {
                     type="text"
                     id="zipcode"
                     name="zipcode"
-                    placeholder="Zip Code"
+                    placeholder="Zip Code (ex. 01960)"
                     maxLength={5}
                     pattern="\d{5}"
                   />

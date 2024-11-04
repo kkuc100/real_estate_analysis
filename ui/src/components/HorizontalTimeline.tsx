@@ -11,20 +11,18 @@ interface FormProps {
 
 const HorizontalTimeline: React.FC<FormProps> = ({ appState, setAppState }) => {
   // const daysOffset = 5;
-  // const [dateOfProperty, setDateOfProperty] = useState<Date>(
-  //   appState.dateofproperty ? new Date(appState.dateofproperty) : new Date()
-  // );
-  // const [daysOnMarket, setDaysOnMarket] = useState<number>(appState.daysonmarket || 0);
-  // const [projectedSaleDate, setProjectedSaleDate] = useState<Date | null>(null);
+  const [dateOfProperty, setDateOfProperty] = useState<Date>(
+    appState.dateofproperty ? new Date(appState.dateofproperty) : new Date()
+  );
+  const [daysOnMarket, setDaysOnMarket] = useState<number>(appState.daysonmarket || 0);
+  const [projectedSaleDate, setProjectedSaleDate] = useState<Date | null>(null);
   // const [lowerBoundProperty, setLowerBoundProperty] = useState<Date | null>(null);
   // const [upperBoundProperty, setUpperBoundProperty] = useState<Date | null>(null);
   
-  // useEffect(() => {
-  //   const newProjectedSaleDate = addDays(dateOfProperty, daysOnMarket);
-  //   setProjectedSaleDate(newProjectedSaleDate);
-  //   setLowerBoundProperty(addDays(newProjectedSaleDate, -daysOffset));
-  //   setUpperBoundProperty(addDays(newProjectedSaleDate, daysOffset));
-  // }, [dateOfProperty, daysOnMarket]);
+  useEffect(() => {
+    const newProjectedSaleDate = addDays(dateOfProperty, daysOnMarket);
+    setProjectedSaleDate(newProjectedSaleDate);
+  }, [dateOfProperty, daysOnMarket]);
 
   // const dates = [
   //   {
@@ -40,11 +38,10 @@ const HorizontalTimeline: React.FC<FormProps> = ({ appState, setAppState }) => {
   //     cardTitle: "Upper Bound for Property",
   //   },
   // ];
-  const days_on_market = appState.daysonmarket || 0;
   
   return (
     <div className="timeline-container">
-      <p>The date the property will sell is: {days_on_market}</p>
+      <p>The date the property will sell is: {projectedSaleDate ? format(projectedSaleDate, 'MMMM dd, yyyy') : 'N/A'}</p>
     </div>
   );
 };
