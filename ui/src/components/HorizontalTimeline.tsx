@@ -40,11 +40,11 @@ const HorizontalTimeline: React.FC<FormProps> = ({ appState, setAppState }) => {
   //     cardTitle: "Upper Bound for Property",
   //   },
   // ];
-  const predicted_date = appState.dateofproperty ? new Date(appState.dateofproperty).toDateString() : "N/A";
+  const days_on_market = appState.daysonmarket || 0;
   
   return (
     <div className="timeline-container">
-      <p>The date the property will sell is: {predicted_date}</p>
+      <p>The date the property will sell is: {days_on_market}</p>
     </div>
   );
 };
