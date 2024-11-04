@@ -17,7 +17,7 @@ interface ZipCodeData {
 }
 
 
-const Form: React.FC<FormProps> = ({ appState, setAppState }) => {
+const SliderComp: React.FC<FormProps> = ({ appState, setAppState }) => {
     const [MinMaxZipMap, setMinMaxZipMap] = useState<Map<string, { min: number; max: number }>>(new Map());
 
     useEffect(() => {
@@ -78,4 +78,4 @@ const Form: React.FC<FormProps> = ({ appState, setAppState }) => {
   );
 };
 
-export default Form;
+export default SliderComp;

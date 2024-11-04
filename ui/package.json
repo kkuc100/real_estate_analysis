@@ -20,7 +20,6 @@
     "react-chrono": "^2.6.1",
     "react-d3-speedometer": "^2.2.1",
     "react-dom": "^18.3.1",
-    "react-horizontal-timeline": "^1.5.3",
     "react-router-dom": "^6.27.0",
     "react-scripts": "5.0.1",
     "typescript": "^4.9.5",

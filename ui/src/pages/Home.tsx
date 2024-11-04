@@ -5,7 +5,7 @@ import ReactSpeedometer from "react-d3-speedometer";
 import marketEdgeLogoOnly from '../assets/MarketEdge_logo_cropped.png';
 import './Home.css'
 import zipData from '../assets/zip_cluster_mapping.json';
-import Prediction from '../components/Slider';
+import SliderComp from '../components/Slider';
 import HorizontalTimeline from '../components/HorizontalTimeline';
 
 interface FormProps {
@@ -238,7 +238,7 @@ const Form: React.FC<FormProps> = ({ appState, setAppState }) => {
         <h2>Adjust the Timeline Slider</h2>
           <HorizontalTimeline appState={appState} setAppState={setAppState} />
           <h2>Adjust the Price Slider ($)</h2>
-          <Prediction appState={appState} setAppState={setAppState} />
+          <SliderComp appState={appState} setAppState={setAppState} />
         </div>
       </div>
     </div>
