@@ -37,7 +37,7 @@ const About: React.FC<FormProps> = ({ appState, setAppState }) => {
     <div className="About">
       <div className="image-container">
         <FlippableCard imageSrc={kevin} altText="kevin" text="Kevin - Data Scientist and Software Engineer currently pursuing his Master of Information and Data Science at UC Berkeley. He has extensive experience in machine learning, data analysis, and software development, including deploying real-time tracking systems for the Space Development Agency and leveraging technologies like Python, R, SQL, and Kubernetes."/>
-        <FlippableCard imageSrc={leo} altText="leo" text="Leo - Data Scientist" />
+        <FlippableCard imageSrc={leo} altText="leo" text="Leo - Senior Data Analyst and Data Scientist at VTS, a commercial real estate technology company, which he leads client facing analytics and reporting. He is also pursuing his Master of Information and Data Science at UC Berkeley and expected to graduate in December 2024." />
         <FlippableCard imageSrc={nick} altText="nick" text="Nick - Data Scientist with over 4 years of experience currently living in Buenos Aires, Argentina. His previous experience includes NLP, customer insights, segmentation, and statistics. Outside of work he enjoys traveling, soccer, weightlifting, reading, and chess." />
       </div>
       <iframe

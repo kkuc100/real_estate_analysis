@@ -10,34 +10,23 @@ interface FormProps {
 }
 
 const HorizontalTimeline: React.FC<FormProps> = ({ appState, setAppState }) => {
-  // const daysOffset = 5;
-  const [dateOfProperty, setDateOfProperty] = useState<Date>(
-    appState.dateofproperty ? new Date(appState.dateofproperty) : new Date()
-  );
-  const [daysOnMarket, setDaysOnMarket] = useState<number>(appState.daysonmarket || 0);
+  
   const [projectedSaleDate, setProjectedSaleDate] = useState<Date | null>(null);
-  // const [lowerBoundProperty, setLowerBoundProperty] = useState<Date | null>(null);
-  // const [upperBoundProperty, setUpperBoundProperty] = useState<Date | null>(null);
+  console.log("projectedSaleDate",projectedSaleDate)
+  console.log("Initial dateOfProperty:", appState.dateofproperty);
+  console.log("Initial daysOnMarket:", appState.daysonmarket);
   
   useEffect(() => {
-    const newProjectedSaleDate = addDays(dateOfProperty, daysOnMarket);
-    setProjectedSaleDate(newProjectedSaleDate);
-  }, [dateOfProperty, daysOnMarket]);
+    if (appState.dateofproperty && appState.daysonmarket) {
+      const newProjectedSaleDate = addDays(new Date(appState.dateofproperty), appState.daysonmarket);
+      console.log("newProjectedSaleDate", newProjectedSaleDate);
+      setProjectedSaleDate(newProjectedSaleDate);
+    } else {
+      console.warn("dateofproperty is undefined");
+      // Handle the case where dateofproperty is undefined if necessary
+    }
+  }, [appState.dateofproperty, appState.daysonmarket]);
 
-  // const dates = [
-  //   {
-  //     title: dateOfProperty.toDateString(),
-  //     cardTitle: "Date Property Entered the Market",
-  //   },
-  //   {
-  //     title: lowerBoundProperty ? lowerBoundProperty.toDateString() : "N/A",
-  //     cardTitle: "Lower Bound for Property",
-  //   },
-  //   {
-  //     title: upperBoundProperty ? upperBoundProperty.toDateString() : "N/A",
-  //     cardTitle: "Upper Bound for Property",
-  //   },
-  // ];
   
   return (
     <div className="timeline-container">
