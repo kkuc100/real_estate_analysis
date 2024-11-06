@@ -11,6 +11,7 @@ const App: React.FC = () => {
 
     return (
         <Router>
+            <div className="App">
             <Header 
                 appState={appState}
                 setAppState={setAppState}
@@ -25,6 +26,7 @@ const App: React.FC = () => {
              setAppState={setAppState}
              />} />
           </Routes>
+          </div>
         </Router>
     );
 };

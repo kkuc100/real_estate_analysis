@@ -229,15 +229,15 @@ const Form: React.FC<FormProps> = ({ appState, setAppState }) => {
               </tbody>
             </table>
             <div className='button'>
+            <button id='submit-button' type='button' onClick={handleClear}>Clear</button>
               <button id='submit-button' type='submit'>Check Estimation</button>
-              <button id='submit-button' type='button' onClick={handleClear}>Clear</button>
             </div>
           </form>
         </div>
         <div className='grid-item'>
-        <h2>Adjust the Timeline Slider</h2>
+        <h2>Timeline Prediction</h2>
           <HorizontalTimeline appState={appState} setAppState={setAppState} />
-          <h2>Adjust the Price Slider ($)</h2>
+          <h2>Price Slider ($)</h2>
           <SliderComp appState={appState} setAppState={setAppState} />
         </div>
       </div>

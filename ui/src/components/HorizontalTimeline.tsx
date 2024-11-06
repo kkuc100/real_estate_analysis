@@ -29,7 +29,7 @@ const HorizontalTimeline: React.FC<FormProps> = ({ appState, setAppState }) => {
 
   
   return (
-    <div className="timeline-container">
+    <div>
       <p>The date the property will sell is: {projectedSaleDate ? format(projectedSaleDate, 'MMMM dd, yyyy') : 'N/A'}</p>
     </div>
   );

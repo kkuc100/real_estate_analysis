@@ -1,24 +1,15 @@
 /* Base Styles */
 
 .About {
-  padding: 0px;
-  flex-wrap: wrap;
   overflow: hidden;
-  background: linear-gradient(to bottom, #eef2f5, #d7e1ec);
-  height: 93vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  box-sizing: border-box;
-  color: #333;
 }
 
 .image-container {
+  margin-top: 60px;
   display: flex; /* Use flexbox to layout images in a row */
   justify-content: center; /* Center the images */
   gap: 20px; /* Space between images */
-  margin-bottom: 20px; /* Space below the images */
+  padding: 20px;
 }
 
 .team-image {
@@ -52,18 +43,28 @@
   height: 400px;
   font-size: 20px;
   color: white;
-  background-color: rgb(23, 49, 73);
-  font-family: 'Poppins', sans-serif;
+  background: transparent;
   display: flex;
   align-items: center;
   justify-content: center;
   text-align: center;
-  border-radius: 15px;
+  border-radius: 10px;
+  padding-left: 10px;  /* Add left padding */
+  padding-right: 10px;
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  box-sizing: border-box; 
+  text-overflow: ellipsis;
   margin: auto;
-  padding: 20px; /* Added padding for spacing */
+  animation: gradientAnimation 15s ease infinite; /* Add animation */
 }
 
 .flippable-text:hover {
   transform: scale(1.05); /* Slightly enlarge image on hover */
+}
+
+.map-container {
+  overflow-y: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
