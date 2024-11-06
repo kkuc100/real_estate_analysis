@@ -16,7 +16,7 @@
   width: 400px; /* Set width for images */
   height: 400px; /* Maintain aspect ratio */
   border-radius: 10px; /* Add rounded corners */
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Add subtle shadow for depth */
+  box-shadow: 30px 30px 8px rgba(0, 0, 0, 0.1);
   transition: transform 0.3s; /* Transition effect for hover */
 }
 
@@ -39,6 +39,7 @@
 }
 
 .flippable-text {
+  box-shadow: 30px 30px 8px rgba(0, 0, 0, 0.1);
   width: 400px;
   height: 400px;
   font-size: 20px;

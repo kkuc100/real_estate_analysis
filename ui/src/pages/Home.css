@@ -1,18 +1,13 @@
 /* Base Styles */
 
-.Home {
-  overflow: hidden;
-}
-
-
 /* Grid Container */
 .Home .grid-container {
   display: grid;
-  margin-top: 60px;
-  grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
-  gap: 10px;
-  width: 100%;
-  height: 90%;
+  margin-top: 0px;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+  width: 80vw;
+  height: 100%;
   padding: 10px;
 }
 
@@ -21,9 +16,9 @@
   background: #ffffff;
   border-radius: 8px;
   border: 1px solid #e0e0e0;
-  padding: 15px;
+  padding: 20px;
   text-align: center;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 30px 30px 8px rgba(0, 0, 0, 0.1);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
@@ -62,15 +57,6 @@
   font-weight: 600;
   padding: 12px;
   border-radius: 4px;
-}
-
-/* Speedometer Section */
-.Home .speedometer {
-  padding: 20px;
-  margin-bottom: 15px;
-  background: #ffffff;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 /* Headings */
