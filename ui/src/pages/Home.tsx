@@ -1,23 +1,19 @@
 import React, { ChangeEvent, useEffect,FormEvent, useState } from 'react';
-import { ApplicationState, State } from '../ourtypes';
+import { ApplicationStateType, State } from '../ourtypes';
 import Slider from '@mui/material/Slider';
 import ReactSpeedometer from "react-d3-speedometer";
 import marketEdgeLogoOnly from '../assets/MarketEdge_logo_cropped.png';
 import './Home.css'
 import zipData from '../assets/zip_cluster_mapping.json';
-import SliderComp from '../components/Slider';
+import PriceSlider from '../components/PriceSlider';
 import HorizontalTimeline from '../components/HorizontalTimeline';
+import { ApplicationState } from '../ApplicationState';
+
 
 interface FormProps {
-  appState: ApplicationState;
-  setAppState: React.Dispatch<React.SetStateAction<ApplicationState>>;
+  appState: ApplicationStateType;
+  setAppState: React.Dispatch<React.SetStateAction<ApplicationStateType>>;
 }
-
-interface ZipCodeData {
-  ZIP: string;       // Assuming ZIP is a string
-  zip_cluster: number; // Assuming zip_cluster is a number; adjust as necessary
-}
-
 
 const Form: React.FC<FormProps> = ({ appState, setAppState }) => {
   const [zipMap, setZipMap] = useState<Map<string, string>>(new Map());
@@ -35,7 +31,6 @@ const Form: React.FC<FormProps> = ({ appState, setAppState }) => {
       );
       setZipMap(zipMapData);
     };
-
     fetchZipCodes();
   }, []);
 
@@ -53,7 +48,7 @@ const Form: React.FC<FormProps> = ({ appState, setAppState }) => {
       setError('');
     }
 
-    const newState: ApplicationState = {
+    const newState: ApplicationStateType = {
       ...appState,  // Use current state instead of prevState
       state: (formElements.namedItem("state") as HTMLSelectElement)?.value,
       zipcode: Number(zipMap.get(zip_input)),
@@ -69,7 +64,7 @@ const Form: React.FC<FormProps> = ({ appState, setAppState }) => {
     callSageMakerEndpoint(newState);
   }
 
-  async function callSageMakerEndpoint(newState: ApplicationState) {
+  async function callSageMakerEndpoint(newState: ApplicationStateType) {
     const requestOptions = {
       method: 'POST',
       headers: {
@@ -96,28 +91,11 @@ const Form: React.FC<FormProps> = ({ appState, setAppState }) => {
   }
 
   function handleClear() {
-    setAppState({ ...appState,
-      state: State.ALABAMA,
-      zipcode: undefined,
-      sqrft: undefined,
-      beds: undefined,
-      baths: undefined,
-      age: undefined,
-      price: undefined,
-      dateofproperty: new Date("2024-02-10"),
-      daysonmarket: 5,});
-      setInputZipcode(''); // Clear input zipcode
-      setError('');
-    };
-
-  const handleSliderChange = (event: Event, newValue: number | number[]) => {
-    setAppState((prevState) => ({
-      ...prevState,
-      price: newValue as number,
-    }));
-  };
-
-
+    setAppState(ApplicationState);
+    setInputZipcode(''); 
+    setError(''); 
+  }
+  
 
   return (
     <div className='Home'>
@@ -236,9 +214,17 @@ const Form: React.FC<FormProps> = ({ appState, setAppState }) => {
         </div>
         <div className='grid-item'>
         <h2>Timeline Prediction</h2>
-          <HorizontalTimeline appState={appState} setAppState={setAppState} />
+        {appState.daysonmarket !== undefined ? (
+            <HorizontalTimeline appState={appState} setAppState={setAppState} /> // This will be shown when someValue is not null
+          ) : (
+            <p>Loading...Please Complete Form</p>  // Optionally, you can show a loading message
+          )}
           <h2>Price Slider ($)</h2>
-          <SliderComp appState={appState} setAppState={setAppState} />
+          {appState.daysonmarket !== undefined ? (
+            <PriceSlider appState={appState} setAppState={setAppState} /> // This will be shown when someValue is not null
+          ) : (
+            <p>Loading...Please Complete Form</p>  // Optionally, you can show a loading message
+          )}
         </div>
       </div>
     </div>

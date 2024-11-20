@@ -1,13 +1,14 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Header from './components/Header';
-import useApplicationState from './ApplicationState';
+import {ApplicationState} from './ApplicationState';
 import Home from './pages/Home';
 import About from './pages/About';
 import './App.css'
+import { ApplicationStateType } from './ourtypes';
 
 const App: React.FC = () => {
-    const [appState, setAppState] = useApplicationState();
+    const [appState, setAppState] = useState<ApplicationStateType>(ApplicationState);
 
     return (
         <Router>

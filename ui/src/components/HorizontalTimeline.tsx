@@ -1,36 +1,82 @@
-import React, { useEffect, useRef, useMemo, useState } from 'react';
-import { ApplicationState } from '../ourtypes';
+import React, { useEffect, useState } from 'react';
+import { ApplicationStateType } from '../ourtypes';
+import Slider from '@mui/material/Slider';
 import { format, addDays } from 'date-fns';
-import { Chrono } from "react-chrono";
-import './HorizontalTimeline.css';
+import PriceDomAdjust from '../assets/price_dom_adjustments.json';
+import './HorizontalTimeline.css'
 
 interface FormProps {
-  appState: ApplicationState;
-  setAppState: React.Dispatch<React.SetStateAction<ApplicationState>>;
+  appState: ApplicationStateType;
+  setAppState: React.Dispatch<React.SetStateAction<ApplicationStateType>>;
 }
 
 const HorizontalTimeline: React.FC<FormProps> = ({ appState, setAppState }) => {
-  
+  const [DomMap, setDomMap] = useState<Map<string, number[]>>(new Map());
+  const [lowerDate, setlowerDate] = useState<Date | null>(null);
   const [projectedSaleDate, setProjectedSaleDate] = useState<Date | null>(null);
-  console.log("projectedSaleDate",projectedSaleDate)
-  console.log("Initial dateOfProperty:", appState.dateofproperty);
-  console.log("Initial daysOnMarket:", appState.daysonmarket);
-  
-  useEffect(() => {
-    if (appState.dateofproperty && appState.daysonmarket) {
-      const newProjectedSaleDate = addDays(new Date(appState.dateofproperty), appState.daysonmarket);
-      console.log("newProjectedSaleDate", newProjectedSaleDate);
-      setProjectedSaleDate(newProjectedSaleDate);
-    } else {
-      console.warn("dateofproperty is undefined");
-      // Handle the case where dateofproperty is undefined if necessary
-    }
-  }, [appState.dateofproperty, appState.daysonmarket]);
+  const [upperDate, setupperDate] = useState<Date | null>(null);
+  const [selectedDate, setSelectedDate] = useState<string>('');
 
+  useEffect(() => {
+    const fetchDomArray = () => {
+      const DomArray = new Map(
+        Object.entries(PriceDomAdjust).map(([key, values]) => [
+          key.toString(),
+          values as number[], // Ensure values are cast correctly
+        ])
+      );
+      setDomMap(DomArray);
+    };
+    fetchDomArray();
+  }, []);
+
+  useEffect(() => {
+    if (appState.dateofproperty && appState.daysonmarket && appState.zipcode && appState.currentStepIndex !== undefined) {
+      const projectedDate = addDays(new Date(appState.dateofproperty), appState.daysonmarket);
+      console.log("AppState",appState)
+      const zipValues = DomMap.get(appState.zipcode.toString()); // Ensure the key is a string
+      if (zipValues && zipValues[appState.currentStepIndex] !== undefined) {
+        const adjustmentFactor = zipValues[appState.currentStepIndex];
+        const adjustedSaleDate = addDays(projectedDate, adjustmentFactor);
+        console.log("adjustedSaleDate",adjustedSaleDate)
+        setlowerDate(addDays(adjustedSaleDate, -10));
+        setupperDate(addDays(adjustedSaleDate, 10));
+        setProjectedSaleDate(adjustedSaleDate);
+      } else {
+        console.warn("Invalid adjustment factor or zip code");
+      }
+    } else {
+      console.warn("Missing required data from appState");
+    }
+  }, [appState.dateofproperty, appState.daysonmarket, appState.zipcode, appState.currentStepIndex]);
   
+  const handleSliderChange = (event: Event, newValue: number | number[]) => {
+    setSelectedDate(formatDate(newValue as number));
+  };
+
+  const formatDate = (timestamp: number) => {
+    const date = new Date(timestamp);
+    return date.toLocaleDateString();
+  };
+
   return (
-    <div>
-      <p>The date the property will sell is: {projectedSaleDate ? format(projectedSaleDate, 'MMMM dd, yyyy') : 'N/A'}</p>
+    <div className='horizontal-component'>
+      <Slider
+        className='horizontal-slider'
+        value={projectedSaleDate?.getTime() || 0}
+        onChange={handleSliderChange}
+        min={appState.dateofproperty ? appState.dateofproperty.getTime() : 0}
+        max={upperDate ? upperDate.getTime() : 1000000000000}
+        step={null}
+        marks={[
+          { value: appState.dateofproperty?.getTime() || 0, label: formatDate(appState.dateofproperty?.getTime() || 0) },
+          { value: lowerDate?.getTime() || 0, label: formatDate(lowerDate?.getTime() || 0) },
+          { value: projectedSaleDate?.getTime() || 0, label: formatDate(projectedSaleDate?.getTime() || 0) },
+          { value: upperDate?.getTime() || 0, label: formatDate(upperDate?.getTime() || 0) },
+        ]}
+        valueLabelDisplay="auto"
+        valueLabelFormat={(value) => formatDate(value as number)}
+      />
     </div>
   );
 };

@@ -1,5 +1,5 @@
 import React, {ReactNode, ChangeEvent, FormEvent,useState } from 'react';
-import { ApplicationState, State } from '../ourtypes';
+import { ApplicationStateType, State } from '../ourtypes';
 import Slider from '@mui/material/Slider';
 import ReactSpeedometer from "react-d3-speedometer";
 import kevin from '../assets/kevin.jpeg';
@@ -8,8 +8,8 @@ import nick from '../assets/nick.png';
 import './About.css'
 
 interface FormProps {
-  appState: ApplicationState;
-  setAppState: React.Dispatch<React.SetStateAction<ApplicationState>>;
+  appState: ApplicationStateType;
+  setAppState: React.Dispatch<React.SetStateAction<ApplicationStateType>>;
 }
 
 const FlippableCard: React.FC<{ imageSrc: string; altText: string; text: string }> = ({ imageSrc, altText, text }) => {

@@ -1,14 +1,14 @@
 import React, { createContext, useContext, useState } from 'react';
-import { defaultApplicationState} from '../ApplicationState';
-import { ApplicationState, State } from '../ourtypes';
+import { ApplicationState} from '../ApplicationState';
+import { ApplicationStateType, State } from '../ourtypes';
 import ReactSpeedometer from "react-d3-speedometer"
 import marketEdgeLogo from '../assets/MarketEdge_logo_header.png';
 import { Link } from 'react-router-dom';
 import './Header.css';
 
 interface FormProps {
-  appState: ApplicationState;
-  setAppState: React.Dispatch<React.SetStateAction<ApplicationState>>;
+  appState: ApplicationStateType;
+  setAppState: React.Dispatch<React.SetStateAction<ApplicationStateType>>;
 }
 
 const Header: React.FC<FormProps> = ({ appState, setAppState }) => {

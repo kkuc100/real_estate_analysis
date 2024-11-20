@@ -1,55 +1,36 @@
-/* Container for the timeline */
-.timeline-container {
-  width: 600px;               /* Fixed width */
-  height: 400px;              /* Fixed height */
-  margin: auto;               /* Center the timeline */
-  display: flex;              /* Flexbox for alignment */
-  align-items: center;        /* Center items vertically */
-  justify-content: center;     /* Center items horizontally */
-  position: relative;         /* Relative positioning for absolute elements */
-  background-color: #f9f9f9; /* Light background color */
-  border-radius: 8px;        /* Rounded corners */
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+/* Container for the slider */
+
+.horizontal-component {
+  width: 550px; /* Adjust the width of the slider */
+  padding: 10px
 }
 
-/* Styles for the cards */
-.chrono-card {
-  border: 1px solid #e0e0e0; /* Border color */
-  border-radius: 5px;        /* Rounded corners */
-  padding: 15px;             /* Padding inside cards */
-  background-color: #ffffff; /* Card background color */
-  color: #333;               /* Text color */
-  transition: transform 0.2s; /* Smooth scaling on hover */
-  max-width: 250px;          /* Limit the max width of cards */
-  overflow: hidden;          /* Prevent overflow */
-  white-space: nowrap;       /* Prevent text from wrapping */
-  text-overflow: ellipsis;   /* Add ellipsis for overflowed text */
-  box-shadow: 0px 30px 8px rgba(0, 0, 0, 0.1);
+
+.horizontal-slider {
+  margin-bottom: 30px; /* Center the slider horizontally */
+  position: relative;
 }
 
-/* Hover effect for cards */
-.chrono-card:hover {
-  transform: scale(1.05);    /* Slightly enlarge on hover */
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2); /* Increased shadow on hover */
+/* Style for the marks */
+.horizontal-slider .MuiSlider-markLabel {
+  white-space: nowrap;  /* Prevent labels from wrapping */
+  font-size: 0.8rem;  /* Adjust font size */
+  position: absolute; /* Position labels absolutely */
+  margin-top: 10px; /* Adjust space between the slider track and labels */
 }
 
-/* Card title styling */
-.card-title {
-  font-size: 1.2rem;         /* Larger font size for titles */
-  font-weight: bold;         /* Bold text for titles */
-  margin-bottom: 5px;       /* Space below titles */
+/* Target even-numbered labels */
+.horizontal-slider .MuiSlider-markLabel {
+  font-size: 0.8rem;
+  transform: rotate(-30deg) translateX(-20px) translateY(-20px);
 }
 
-/* Card description styling */
-.card-description {
-  font-size: 0.9rem;         /* Smaller font size for descriptions */
-  color: #666;               /* Lighter text color for descriptions */
+/* Style for the slider rail */
+.horizontal-slider .MuiSlider-rail {
+  height: 8px; /* Adjust the height of the slider rail */
 }
 
-/* Timeline points styling */
-.timeline-point {
-  background-color: #0f62fe; /* Point color */
-  border-radius: 50%;         /* Circular points */
-  width: 12px;                /* Point size */
-  height: 12px;               /* Point size */
+/* Style for the slider track */
+.horizontal-slider .MuiSlider-track {
+  height: 8px; /* Adjust the height of the slider track */
 }

@@ -1,7 +1,7 @@
 
 import React from 'react';
 
-export interface ApplicationState {
+export interface ApplicationStateType {
     state?: string;
     zipcode?: number;
     sqrft?: number;
@@ -10,7 +10,8 @@ export interface ApplicationState {
     age?: number;
     price?: number;
     dateofproperty?: Date;
-    daysonmarket?: number,
+    daysonmarket?: number;
+    currentStepIndex?: number;
   }
 
 export enum State {
