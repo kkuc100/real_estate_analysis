@@ -83,7 +83,7 @@ const PriceSlider: React.FC<FormProps> = ({ appState, setAppState }) => {
           currentStepIndex: Math.floor((price - min) / step),
       }));
   }, [appState.price, min, step]);
-  console.log("final price", appState.price)
+  console.log("THIS IS THE final price", appState.price)
   return (
       <Slider
           className='custom-slider'

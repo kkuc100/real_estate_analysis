@@ -3,6 +3,7 @@ import { ApplicationStateType, State } from '../ourtypes';
 import Slider from '@mui/material/Slider';
 import ReactSpeedometer from "react-d3-speedometer";
 import marketEdgeLogoOnly from '../assets/MarketEdge_logo_cropped.png';
+import { format, addDays } from 'date-fns';
 import './Home.css'
 import zipData from '../assets/zip_cluster_mapping.json';
 import PriceSlider from '../components/PriceSlider';
@@ -47,7 +48,7 @@ const Form: React.FC<FormProps> = ({ appState, setAppState }) => {
     } else {
       setError('');
     }
-
+    const DatePlusOneDay = addDays(new Date((formElements.namedItem("dateofproperty") as HTMLInputElement).value), 1);
     const newState: ApplicationStateType = {
       ...appState,  // Use current state instead of prevState
       state: (formElements.namedItem("state") as HTMLSelectElement)?.value,
@@ -56,7 +57,7 @@ const Form: React.FC<FormProps> = ({ appState, setAppState }) => {
       beds: Number((formElements.namedItem("beds") as HTMLInputElement).value),
       baths: Number((formElements.namedItem("baths") as HTMLInputElement).value),
       age: Number((formElements.namedItem("age") as HTMLInputElement).value),
-      dateofproperty: new Date((formElements.namedItem("dateofproperty") as HTMLInputElement).value),
+      dateofproperty: DatePlusOneDay,
     };
 
     setAppState(newState);
