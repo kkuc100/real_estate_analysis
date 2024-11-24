@@ -3,7 +3,6 @@
 *.parquet
 Houses Dataset/
 Data/
-Notebooks/
 Presentations/
 
 # Ignore virtual environments
