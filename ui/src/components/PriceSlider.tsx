@@ -17,86 +17,95 @@ interface ZipCodeData {
 }
 
 const PriceSlider: React.FC<FormProps> = ({ appState, setAppState }) => {
-  const [MinMaxZipMap, setMinMaxZipMap] = useState<Map<string, { min: number; max: number }>>(new Map());
-
-  useEffect(() => {
+    const [MinMaxZipMap, setMinMaxZipMap] = useState<Map<string, { min: number; max: number }>>(new Map());
+  
+    useEffect(() => {
       const fetchMinMaxZipCodes = () => {
-          const zipMap = new Map(
-              MinMaxZipData.map(item => [
-                  item.zip_cluster.toString(),
-                  { min: item.min, max: item.max }
-              ])
-          );
-          setMinMaxZipMap(zipMap);
+        const zipMap = new Map(
+          MinMaxZipData.map(item => [
+            item.zip_cluster.toString(),
+            { min: item.min, max: item.max },
+          ])
+        );
+        setMinMaxZipMap(zipMap);
       };
-
+  
       fetchMinMaxZipCodes();
-  }, []);
-
-  if (!appState.zipcode) {
-    throw new Error("Zipcode is required.");
-  }
-
-  const zipcode = appState.zipcode.toString();
-  const zipData = MinMaxZipMap.get(zipcode);
-  const min = zipData?.min ?? 0;
-  const max = zipData?.max ?? 1000000; // Default max value
-  const range = max - min;
-  const step = range > 0 ? Math.ceil(range / 10) : 1;
-  console.log("min",min)
-  console.log("max",max)
-  console.log("range",range)
-  console.log("zipData",zipData)
-
-  // Generate marks for the slider
-  const marks = Array.from({ length: 11 }, (_, index) => {
+    }, []);
+  
+    if (!appState.zipcode) {
+      throw new Error("Zipcode is required.");
+    }
+  
+    const zipcode = appState.zipcode.toString();
+    const zipData = MinMaxZipMap.get(zipcode);
+    const min = zipData?.min ?? 0;
+    const max = zipData?.max ?? 1000000; // Default max value
+    const range = max - min;
+    const step = range > 0 ? Math.ceil(range / 10) : 1;
+  
+    console.log("min:", min, "max:", max, "range:", range, "zipData:", zipData);
+  
+    // Generate marks for the slider
+    const marks = Array.from({ length: 11 }, (_, index) => {
       const value = min + step * index;
       const formattedValue = value >= 1000000
-          ? `${(value / 1000000).toFixed(1)}M`
-          : value >= 1000
-              ? `${(value / 1000).toFixed(0)}k`
-              : `$${value.toLocaleString()}`;
+        ? `${(value / 1000000).toFixed(1)}M`
+        : value >= 1000
+          ? `${(value / 1000).toFixed(0)}k`
+          : `$${value.toLocaleString()}`;
       return { value, label: formattedValue };
-  });
-
-  useEffect(() => {
+    });
+  
+    useEffect(() => {
       if (zipData) {
-          const midPrice = (max + min) / 2;
-          setAppState((prevState) => ({
-              ...prevState,
-              price: midPrice,
-          }));
+        const midPrice = (max + min) / 2;
+        console.log("Calculated midPrice:", midPrice);
+        setAppState((prevState) => ({
+          ...prevState,
+          price: midPrice,
+        }));
       }
-  }, [appState.zipcode, min, max]);
-
-  const handleSliderChange = (event: Event, newValue: number | number[]) => {
+    }, [appState.zipcode, min, max, setAppState]);
+  
+    const handleSliderChange = (event: Event, newValue: number | number[]) => {
       setAppState((prevState) => ({
-          ...prevState,
-          price: newValue as number,
+        ...prevState,
+        price: newValue as number,
       }));
-  };
-
-  useEffect(() => {
+    };
+  
+    useEffect(() => {
       const price = appState.price ?? 0;
+      const stepIndex = Math.floor((price - min) / step);
+      console.log("Calculated step index:", stepIndex);
       setAppState((prevState) => ({
-          ...prevState,
-          currentStepIndex: Math.floor((price - min) / step),
+        ...prevState,
+        currentStepIndex: stepIndex,
       }));
-  }, [appState.price, min, step]);
-  console.log("THIS IS THE final price", appState.price)
-  return (
+    }, [appState.price, min, step, setAppState]);
+  
+    console.log("Final price:", appState.price);
+  
+    // Prevent rendering slider until the necessary data is available
+    if (min === 0 || max === 1000000 || !appState.price) {
+      return <div>Loading...</div>; // Display loading message while waiting for data
+    }
+  
+    return (
       <Slider
-          className='custom-slider'
-          aria-label="Price Slider"
-          value={appState.price}
-          onChange={handleSliderChange}
-          valueLabelDisplay="auto"
-          step={step}
-          marks={marks}
-          min={min}
-          max={max}
+        className="custom-slider"
+        aria-label="Price Slider"
+        value={appState.price}
+        onChange={handleSliderChange}
+        valueLabelDisplay="auto"
+        step={step}
+        marks={marks}
+        min={min}
+        max={max}
       />
-  );
-};
-
-export default PriceSlider;
+    );
+  };
+  
+  export default PriceSlider;
+  
