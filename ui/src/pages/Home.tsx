@@ -148,8 +148,8 @@ const Form: React.FC<FormProps> = ({ appState, setAppState }) => {
                       name="sqrft"
                       placeholder="Square Feet"
                       style={{ width: '120px' }}
-                      max="1000000"
-                      min="0"
+                      max="100000"
+                      min="227"
                     />
                   </td>
                 </tr>
@@ -162,8 +162,8 @@ const Form: React.FC<FormProps> = ({ appState, setAppState }) => {
                       name="beds"
                       placeholder="Beds"
                       style={{ width: '120px' }}
-                      max="100"
-                      min="0"
+                      max="7"
+                      min="1"
                     />
                   </td>
                 </tr>
@@ -176,8 +176,8 @@ const Form: React.FC<FormProps> = ({ appState, setAppState }) => {
                       name="baths"
                       placeholder="Baths"
                       style={{ width: '120px' }}
-                      max="60"
-                      min="0"
+                      max="21"
+                      min="1"
                     />
                   </td>
                 </tr>
@@ -190,7 +190,7 @@ const Form: React.FC<FormProps> = ({ appState, setAppState }) => {
                       name="age"
                       placeholder="age"
                       style={{ width: '120px' }}
-                      max="1000"
+                      max="2011"
                       min="0"
                     />
                   </td>
