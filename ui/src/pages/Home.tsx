@@ -214,7 +214,7 @@ const Form: React.FC<FormProps> = ({ appState, setAppState }) => {
           </form>
         </div>
         <div className='grid-item'>
-        <h2>Timeline Prediction</h2>
+        <h2 style={{ marginBottom: '0px' }}>Timeline Prediction</h2>
         {appState.daysonmarket !== undefined ? (
             <HorizontalTimeline appState={appState} setAppState={setAppState} /> // This will be shown when someValue is not null
           ) : (
