@@ -216,15 +216,20 @@ const Form: React.FC<FormProps> = ({ appState, setAppState }) => {
         <div className='grid-item'>
         <h2 style={{ marginBottom: '0px' }}>Timeline Prediction</h2>
         {appState.daysonmarket !== undefined ? (
-            <HorizontalTimeline appState={appState} setAppState={setAppState} /> // This will be shown when someValue is not null
-          ) : (
-            <p>Loading...Please Complete Form</p>  // Optionally, you can show a loading message
+            <>
+              <HorizontalTimeline appState={appState} setAppState={setAppState} />
+              <p>
+              <strong>Expected time on market:</strong> {Math.round(appState.daysonmarket - 5)} to {Math.round(appState.daysonmarket + 5)} days
+            </p>
+            </>
+          ) :  (
+            <p>Please input property characteristics to get the prediction</p>  // Optionally, you can show a loading message
           )}
           <h2>Price Slider ($)</h2>
           {appState.daysonmarket !== undefined ? (
             <PriceSlider appState={appState} setAppState={setAppState} /> // This will be shown when someValue is not null
           ) : (
-            <p>Loading...Please Complete Form</p>  // Optionally, you can show a loading message
+            <p>Please input property characteristics to get the prediction</p>  // Optionally, you can show a loading message
           )}
         </div>
       </div>
