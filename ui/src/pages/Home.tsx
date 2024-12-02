@@ -28,7 +28,7 @@ const Form: React.FC<FormProps> = ({ appState, setAppState }) => {
       const zipMapData = new Map(
         zipData.map(item => [
           item.ZIP.toString(),
-          item.zip_cluster !== null ? item.zip_cluster.toString() : '', // Handle null by using an empty string
+          item.zip_cluster !== null ? item.zip_cluster.toString() : '', // Handle null by using an empty string.
         ])
       );
       setZipMap(zipMapData);
