@@ -9,7 +9,10 @@ export const ApplicationState: ApplicationStateType = {
     baths: undefined,
     age: undefined,
     price: undefined,
-    dateofproperty: undefined,
-    daysonmarket: undefined,
-    currentStepIndex: 5,
+    inputdate: undefined,
+    predicteddom: undefined,
+    upperDate: undefined,
+    projectedSaleDate: undefined, 
+    lowerDate: undefined,
+    currentStepIndex: 5
   };

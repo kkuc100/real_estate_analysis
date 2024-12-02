@@ -13,9 +13,6 @@ interface FormProps {
 
 const HorizontalTimeline: React.FC<FormProps> = ({ appState, setAppState }) => {
   const [DomMap, setDomMap] = useState<Map<string, number[]>>(new Map());
-  const [lowerDate, setlowerDate] = useState<Date | null>(null);
-  const [projectedSaleDate, setProjectedSaleDate] = useState<Date | null>(null);
-  const [upperDate, setupperDate] = useState<Date | null>(null);
   const [selectedDate, setSelectedDate] = useState<string>('');
 
   useEffect(() => {
@@ -31,25 +28,35 @@ const HorizontalTimeline: React.FC<FormProps> = ({ appState, setAppState }) => {
     fetchDomArray();
   }, []);
 
+  /* Workflow. User inputs info and submits
+  - inputdate
+  - lowerDate
+  - projectedSaleDate
+  - UpperDate */
+
   useEffect(() => {
-    if (appState.dateofproperty && appState.daysonmarket && appState.zipcode && appState.currentStepIndex !== undefined) {
-      const projectedDate = addDays(new Date(appState.dateofproperty), appState.daysonmarket);
+    if (appState.inputdate && appState.predicteddom && appState.zipcode && appState.currentStepIndex !== undefined) {
       console.log("AppState",appState)
       const zipValues = DomMap.get(appState.zipcode.toString()); // Ensure the key is a string
       if (zipValues && zipValues[appState.currentStepIndex] !== undefined) {
+        /* adjustmentFactor pulls a constant ie. 3 */
         const adjustmentFactor = zipValues[appState.currentStepIndex];
-        const adjustedSaleDate = addDays(projectedDate, adjustmentFactor);
+        /* projectedSaleDate adds the input date the user added to the prediction */
+        const projectedSaleDate = addDays(new Date(appState.inputdate), appState.predicteddom);
+        /* adjustedSaleDate accounts for the slider change */
+        const adjustedSaleDate = addDays(projectedSaleDate, adjustmentFactor);
         console.log("adjustedSaleDate",adjustedSaleDate)
-        setlowerDate(addDays(adjustedSaleDate, -10));
-        setupperDate(addDays(adjustedSaleDate, 10));
-        setProjectedSaleDate(adjustedSaleDate);
-      } else {
-        console.warn("Invalid adjustment factor or zip code");
-      }
+        setAppState((prevState) => ({
+          ...prevState,
+          lowerDate: addDays(adjustedSaleDate, -10),
+          projectedSaleDate: adjustedSaleDate,
+          upperDate: addDays(adjustedSaleDate, 10),
+        }));
+      } 
     } else {
       console.warn("Missing required data from appState");
     }
-  }, [appState.dateofproperty, appState.daysonmarket, appState.zipcode, appState.currentStepIndex]);
+  }, [appState.inputdate, appState.predicteddom, appState.zipcode, appState.currentStepIndex]);
   
   const handleSliderChange = (event: Event, newValue: number | number[]) => {
     setSelectedDate(formatDate(newValue as number));
@@ -59,14 +66,14 @@ const HorizontalTimeline: React.FC<FormProps> = ({ appState, setAppState }) => {
     const date = new Date(timestamp);
     return date.toLocaleDateString();
   };
-  const sliderMin = appState.dateofproperty ? appState.dateofproperty.getTime() : 0;
-  const sliderMax = upperDate ? upperDate.getTime() : 1000000000000;
+  const sliderMin = appState.inputdate ? appState.inputdate.getTime() : 0;
+  const sliderMax = appState.upperDate ? appState.upperDate.getTime() : 1000000000000;
 
   const marks=[
-    { value: appState.dateofproperty?.getTime() || 0, label: formatDate(appState.dateofproperty?.getTime() || 0) },
-    { value: lowerDate?.getTime() || 0, label: formatDate(lowerDate?.getTime() || 0) },
-    { value: projectedSaleDate?.getTime() || 0, label: formatDate(projectedSaleDate?.getTime() || 0) },
-    { value: upperDate?.getTime() || 0, label: formatDate(upperDate?.getTime() || 0) },
+    { value: appState.inputdate?.getTime() || 0, label: formatDate(appState.inputdate?.getTime() || 0) },
+    { value: appState.lowerDate?.getTime() || 0, label: formatDate(appState.lowerDate?.getTime() || 0) },
+    { value: appState.projectedSaleDate?.getTime() || 0, label: formatDate(appState.projectedSaleDate?.getTime() || 0) },
+    { value: appState.upperDate?.getTime() || 0, label: formatDate(appState.upperDate?.getTime() || 0) },
   ]
 
   return (
@@ -78,7 +85,7 @@ const HorizontalTimeline: React.FC<FormProps> = ({ appState, setAppState }) => {
       />
       <Slider
         className='horizontal-slider'
-        value={projectedSaleDate?.getTime() || 0}
+        value={appState.projectedSaleDate?.getTime() || 0}
         onChange={handleSliderChange}
         min={sliderMin}
         max={sliderMax}

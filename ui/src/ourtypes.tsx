@@ -9,8 +9,11 @@ export interface ApplicationStateType {
     baths?: number;
     age?: number;
     price?: number;
-    dateofproperty?: Date;
-    daysonmarket?: number;
+    inputdate?: Date;
+    predicteddom?: number;
+    upperDate?: Date;
+    projectedSaleDate?: Date;
+    lowerDate?: Date;
     currentStepIndex?: number;
   }
 

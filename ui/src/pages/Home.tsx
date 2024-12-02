@@ -10,7 +10,6 @@ import PriceSlider from '../components/PriceSlider';
 import HorizontalTimeline from '../components/HorizontalTimeline';
 import { ApplicationState } from '../ApplicationState';
 
-
 interface FormProps {
   appState: ApplicationStateType;
   setAppState: React.Dispatch<React.SetStateAction<ApplicationStateType>>;
@@ -20,10 +19,12 @@ const Form: React.FC<FormProps> = ({ appState, setAppState }) => {
   const [zipMap, setZipMap] = useState<Map<string, string>>(new Map());
   const [inputZipcode, setInputZipcode] = useState<string>('');
   const [error, setError] = useState<string>('');
+  const [low, setLow] = useState<number | null>(null);
+  const [high, setHigh] = useState<number | null>(null);
 
   useEffect(() => {
     const fetchZipCodes = () => {
-      // Map through the zipData and ensure zip_cluster is treated as a string
+
       const zipMapData = new Map(
         zipData.map(item => [
           item.ZIP.toString(),
@@ -57,7 +58,7 @@ const Form: React.FC<FormProps> = ({ appState, setAppState }) => {
       beds: Number((formElements.namedItem("beds") as HTMLInputElement).value),
       baths: Number((formElements.namedItem("baths") as HTMLInputElement).value),
       age: Number((formElements.namedItem("age") as HTMLInputElement).value),
-      dateofproperty: DatePlusOneDay,
+      inputdate: DatePlusOneDay,
     };
 
     setAppState(newState);
@@ -81,10 +82,10 @@ const Form: React.FC<FormProps> = ({ appState, setAppState }) => {
       }
       const data = await response.json();
       console.log("response from Lambda", data)
-      const daysonmarket = JSON.parse(data.body);
+      const predicteddom = JSON.parse(data.body);
       setAppState((prevState) => ({
         ...prevState,
-        daysonmarket: daysonmarket,
+        predicteddom: predicteddom,
       }));
     } catch (error) {
       console.error('Error calling Lambda:', error);
@@ -96,6 +97,19 @@ const Form: React.FC<FormProps> = ({ appState, setAppState }) => {
     setInputZipcode(''); 
     setError(''); 
   }
+
+  useEffect(() => {
+    if (appState.lowerDate && appState.upperDate && appState.inputdate) {
+      const lowValue = Math.round((appState.lowerDate.getTime() - appState.inputdate.getTime()) / (1000 * 60 * 60 * 24));
+      const highValue = Math.round((appState.upperDate.getTime() - appState.inputdate.getTime()) / (1000 * 60 * 60 * 24));
+      setLow(lowValue);
+      setHigh(highValue);
+    } else {
+      console.warn("Dates are missing in appState");
+    }
+  }, [appState.lowerDate, appState.upperDate, appState.inputdate]);
+  
+
   
 
   return (
@@ -215,21 +229,21 @@ const Form: React.FC<FormProps> = ({ appState, setAppState }) => {
         </div>
         <div className='grid-item'>
         <h2 style={{ marginBottom: '0px' }}>Timeline Prediction</h2>
-        {appState.daysonmarket !== undefined ? (
+        {appState.predicteddom !== undefined ? (
             <>
               <HorizontalTimeline appState={appState} setAppState={setAppState} />
               <p>
-              <strong>Expected time on market:</strong> {Math.round(appState.daysonmarket - 5)} to {Math.round(appState.daysonmarket + 5)} days
+              <strong>Expected time on market:</strong> {low} to {high} days
             </p>
             </>
           ) :  (
-            <p>Please input property characteristics to get the prediction</p>  // Optionally, you can show a loading message
+            <p>Please input property characteristics to get the prediction</p>
           )}
           <h2>Price Slider ($)</h2>
-          {appState.daysonmarket !== undefined ? (
-            <PriceSlider appState={appState} setAppState={setAppState} /> // This will be shown when someValue is not null
+          {appState.predicteddom !== undefined ? (
+            <PriceSlider appState={appState} setAppState={setAppState} />
           ) : (
-            <p>Please input property characteristics to get the prediction</p>  // Optionally, you can show a loading message
+            <p>Please input property characteristics to get the prediction</p>
           )}
         </div>
       </div>
